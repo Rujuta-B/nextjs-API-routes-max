@@ -1,8 +1,13 @@
 import { useRef } from "react";
+import useRouter from "next/router";
 
 function HomePage() {
   const emailInputRef = useRef();
   const feedbackInputRef = useRef();
+  const router = useRouter();
+  function loadFeedbackHandler() {
+    router.push("/api/feedback");
+  }
 
   function submitFormHandler(event) {
     event.preventDefault();
@@ -37,6 +42,8 @@ function HomePage() {
         </div>
         <button>Submit Feedabck</button>
       </form>
+      <hr />
+      <button onClick={loadFeedbackHandler}>load feeedback</button>
     </div>
   );
 }
