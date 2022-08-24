@@ -4,7 +4,7 @@ import path from "path";
 function handler(req, res) {
   if (req.method === "POST") {
     const email = req.body.email;
-    const feedbackText = req.body.text;
+    const feedbackText = req.body.feedback;
 
     const newFeedback = {
       id: new Date().toISOString(),
