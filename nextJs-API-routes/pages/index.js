@@ -1,12 +1,14 @@
-import { useRef } from "react";
-import useRouter from "next/router";
+import { useRef, useState } from "react";
 
 function HomePage() {
   const emailInputRef = useRef();
   const feedbackInputRef = useRef();
-  const router = useRouter();
+  const [feedbackItems, setFeedbackItems] = useState([]);
+
   function loadFeedbackHandler() {
-    router.push("/api/feedback");
+    fetch("/api/feedback")
+      .then((response) => response.json())
+      .then((data) => setFeedbackItems(data.feedback));
   }
 
   function submitFormHandler(event) {
@@ -17,7 +19,7 @@ function HomePage() {
     const enteredEmail = emailInputRef.current.value;
     const enteredFeedback = feedbackInputRef.current.value;
 
-    const reqBody = { email: enteredEmail, feedback: enteredFeedback };
+    const reqBody = { email: enteredEmail, text: enteredFeedback };
 
     fetch("/api/feedback", {
       method: "POST",
@@ -25,7 +27,7 @@ function HomePage() {
       headers: { "Content-Type": "application/json" },
     })
       .then((response) => response.json())
-      .then((data) => console.log(data));
+      .then((data) => console.log("data"));
   }
 
   return (
@@ -44,6 +46,11 @@ function HomePage() {
       </form>
       <hr />
       <button onClick={loadFeedbackHandler}>load feeedback</button>
+      <ul>
+        {feedbackItems.map((item) => (
+          <li key={item.id}>{item.text}</li>
+        ))}
+      </ul>
     </div>
   );
 }

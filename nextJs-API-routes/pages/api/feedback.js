@@ -29,9 +29,9 @@ function handler(req, res) {
     fs.writeFileSync(filePath, JSON.stringify(data));
     res.status(201).json({ message: "Success!", feedback: newFeedback });
   } else {
-    const filePath = buildFeedbackPath();
+    const filePath = buildFeedbackPath(); //goes into the feedback.json file
     const data = extractFeedback(filePath);
-    res.status(200).json({ message: data });
+    res.status(200).json({ feedback: data });
   }
 }
 
